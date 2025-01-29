@@ -57,4 +57,10 @@ public class PaiementController {
         Paiement updatedPaiement = paiementService.updatePaiement(id, paiement);
         return ResponseEntity.ok(updatedPaiement);
     }
+
+    @GetMapping("/verifier-code-promo/{codePromo}")
+    public ResponseEntity<Boolean> verifierCodePromo(@PathVariable String codePromo) {
+        boolean isValid = paiementService.verifierCodePromo(codePromo);
+        return ResponseEntity.ok(isValid);
+    }
 }

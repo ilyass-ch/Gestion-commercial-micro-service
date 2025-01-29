@@ -6,8 +6,7 @@ import net.chakir.marketingservice.enums.CompagneStatut;
 import java.util.Date;
 
 @Entity
-public class Compagne {
-
+public class Campagne {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,10 +18,10 @@ public class Compagne {
     private Date dateFin;
     private CompagneStatut compagneStatut;
 
-    public Compagne() {
+    public Campagne() {
     }
 
-    public Compagne(Long id, String nom, String description, Date dateDebut, Date dateFin, CompagneStatut compagneStatut) {
+    public Campagne(Long id, String nom, String description, Date dateDebut, Date dateFin, CompagneStatut compagneStatut) {
         this.id = id;
         this.nom = nom;
         this.description = description;

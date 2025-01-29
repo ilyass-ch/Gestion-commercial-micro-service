@@ -16,17 +16,20 @@ public class CodePromo {
     @Temporal(TemporalType.DATE)
     private Date dateExpiration;
     private CodePromoStatut codePromoStatut;
-
+    @ManyToOne
+    @JoinColumn(name = "campagne_id", nullable = false)
+    private Campagne campagne;
     public CodePromo() {
     }
 
-    public CodePromo(Long id, String code, String description, Double montantReduction, Date dateExpiration, CodePromoStatut codePromoStatut) {
+    public CodePromo(Long id, String code, String description, Double montantReduction, Date dateExpiration, CodePromoStatut codePromoStatut, Campagne campagne) {
         this.id = id;
         this.code = code;
         this.description = description;
         this.montantReduction = montantReduction;
         this.dateExpiration = dateExpiration;
         this.codePromoStatut = codePromoStatut;
+        this.campagne = campagne;
     }
 
     public Long getId() {
@@ -75,5 +78,13 @@ public class CodePromo {
 
     public void setCodePromoStatut(CodePromoStatut codePromoStatut) {
         this.codePromoStatut = codePromoStatut;
+    }
+
+    public Campagne getCampagne() {
+        return campagne;
+    }
+
+    public void setCampagne(Campagne campagne) {
+        this.campagne = campagne;
     }
 }

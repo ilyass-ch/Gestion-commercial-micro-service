@@ -2,10 +2,13 @@ package net.chakir.paimentservice.sevice;
 
 import net.chakir.paimentservice.entities.Paiement;
 import net.chakir.paimentservice.entities.Remboursement;
+import net.chakir.paimentservice.enums.CodePromoStatut;
 import net.chakir.paimentservice.model.Client;
+import net.chakir.paimentservice.model.CodePromo;
 import net.chakir.paimentservice.model.Commande;
 import net.chakir.paimentservice.repo.PaiementRepository;
 import net.chakir.paimentservice.transaction.ClientRestClient;
+import net.chakir.paimentservice.transaction.CodePromoRestClient;
 import net.chakir.paimentservice.transaction.CommandeRestclient;
 import org.springframework.stereotype.Service;
 
@@ -16,16 +19,55 @@ public class PaiementService {
     private final PaiementRepository paiementRepository;
     private final ClientRestClient clientRestClient;
     private final CommandeRestclient commandeRestclient;
+    private final CodePromoRestClient codePromoRestClient;
 
-    public PaiementService(PaiementRepository paiementRepository, ClientRestClient clientRestClient, CommandeRestclient commandeRestclient) {
+    public PaiementService(PaiementRepository paiementRepository, ClientRestClient clientRestClient, CommandeRestclient commandeRestclient, CodePromoRestClient codePromoRestClient) {
         this.paiementRepository = paiementRepository;
         this.clientRestClient = clientRestClient;
         this.commandeRestclient = commandeRestclient;
+        this.codePromoRestClient = codePromoRestClient;
     }
 
     public Paiement createPaiement(Paiement paiement) {
+        // Vérifier si un code promo est fourni
+        if (paiement.getCodePromo() != null && !paiement.getCodePromo().isEmpty()) {
+            try {
+                CodePromo codePromo = codePromoRestClient.getCodePromoById(Long.valueOf(paiement.getCodePromo()));
+
+                if (codePromo != null && CodePromoStatut.ACTIF.equals(codePromo.getCodePromoStatut())) {
+                    // Appliquer la réduction
+                    double reduction = codePromo.getMontantReduction();
+                    paiement.setReduction(reduction);
+                    paiement.setMontant(paiement.getMontant() - reduction);
+                } else {
+                    throw new RuntimeException("Code promo invalide ou expiré.");
+                }
+            } catch (Exception e) {
+                throw new RuntimeException("Erreur lors de la récupération du code promo : " + e.getMessage());
+            }
+        }
+
         return paiementRepository.save(paiement);
     }
+
+    public boolean verifierCodePromo(String codePromo) {
+        if (codePromo == null || codePromo.isEmpty()) {
+            throw new RuntimeException("Le code promo est vide ou invalide.");
+        }
+
+        try {
+            CodePromo promo = codePromoRestClient.getCodePromoById(Long.valueOf(codePromo));
+
+            if (promo != null && CodePromoStatut.ACTIF.equals(promo.getCodePromoStatut())) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Erreur lors de la vérification du code promo : " + e.getMessage());
+        }
+    }
+
 
     public Paiement getPaiement(Long id) {
         Paiement paiement = paiementRepository.findPaiementById(id);

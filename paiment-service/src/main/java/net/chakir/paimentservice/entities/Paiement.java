@@ -3,12 +3,12 @@ package net.chakir.paimentservice.entities;
 import jakarta.persistence.*;
 
 import net.chakir.paimentservice.model.Client;
+import net.chakir.paimentservice.model.CodePromo;
 import net.chakir.paimentservice.model.Commande;
 
 import java.time.LocalDate;
 
 @Entity
-
 public class Paiement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,13 +19,17 @@ public class Paiement {
     private String methodPaiement;
     private String statut;
     private LocalDate date;
+    private String codePromo;
+    private Double reduction;
 
     @Transient
     private Commande commande;
     @Transient
     private Client client;
+    @Transient
+    private CodePromo codePromoDetails;
 
-    public Paiement(Long id, Long commandeId, Long clientId, Double montant, String methodPaiement, String statut, LocalDate date, Commande commande, Client client) {
+    public Paiement(Long id, Long commandeId, Long clientId, Double montant, String methodPaiement, String statut, LocalDate date, String codePromo, Double reduction, Commande commande, Client client, CodePromo codePromoDetails) {
         this.id = id;
         this.commandeId = commandeId;
         this.clientId = clientId;
@@ -33,11 +37,14 @@ public class Paiement {
         this.methodPaiement = methodPaiement;
         this.statut = statut;
         this.date = date;
+        this.codePromo = codePromo;
+        this.reduction = reduction;
         this.commande = commande;
         this.client = client;
+        this.codePromoDetails = codePromoDetails;
     }
 
-    public Paiement() {
+    public Paiement(Object o, long l, long l1, double v, String payPal, String enAttente, LocalDate now, Object object, Object o1, Object object1) {
     }
 
     public Long getId() {
@@ -96,6 +103,22 @@ public class Paiement {
         this.date = date;
     }
 
+    public String getCodePromo() {
+        return codePromo;
+    }
+
+    public void setCodePromo(String codePromo) {
+        this.codePromo = codePromo;
+    }
+
+    public Double getReduction() {
+        return reduction;
+    }
+
+    public void setReduction(Double reduction) {
+        this.reduction = reduction;
+    }
+
     public Commande getCommande() {
         return commande;
     }
@@ -110,5 +133,13 @@ public class Paiement {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public CodePromo getCodePromoDetails() {
+        return codePromoDetails;
+    }
+
+    public void setCodePromoDetails(CodePromo codePromoDetails) {
+        this.codePromoDetails = codePromoDetails;
     }
 }
