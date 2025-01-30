@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/campagnes")
+@RequestMapping("/campagnes")
 public class CampagneController {
     private final CampagneService campagneService;
 
