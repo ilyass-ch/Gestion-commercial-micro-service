@@ -23,10 +23,10 @@ public class PaimentServiceApplication {
     @Bean
     CommandLineRunner start(PaiementRepository paiementRepository, RemboursementRepository remboursementRepository) {
         return args -> {
-            // Créer des paiements
-            Paiement paiement1 = new Paiement(null, 101L, 201L, 1500.0, "Carte Bancaire", "PAYÉ", LocalDate.now(), null, null,null);
-            Paiement paiement2 = new Paiement(null, 102L, 202L, 2500.0, "Virement Bancaire", "PAYÉ", LocalDate.now(), null, null, null);
-            Paiement paiement3 = new Paiement(null, 103L, 203L, 1800.0, "PayPal", "EN ATTENTE", LocalDate.now(), null, null, null);
+// Créer des paiements
+            Paiement paiement1 = new Paiement(null, 101L, 201L, 1500.0, "Carte Bancaire", "PAYÉ", LocalDate.now(), null, null, null, null, null);
+            Paiement paiement2 = new Paiement(null, 102L, 202L, 2500.0, "Virement Bancaire", "PAYÉ", LocalDate.now(), null, null, null, null, null);
+            Paiement paiement3 = new Paiement(null, 103L, 203L, 1800.0, "PayPal", "EN ATTENTE", LocalDate.now(), null, null, null, null, null);
 
             paiementRepository.save(paiement1);
             paiementRepository.save(paiement2);

@@ -29,6 +29,22 @@ public class Paiement {
     @Transient
     private CodePromo codePromoDetails;
 
+//    public Paiement(Long id, Long commandeId, Long clientId, Double montant, String methodPaiement, String statut, LocalDate date, String codePromo, Double reduction, Commande commande, Client client, CodePromo codePromoDetails) {
+//        this.id = id;
+//        this.commandeId = commandeId;
+//        this.clientId = clientId;
+//        this.montant = montant;
+//        this.methodPaiement = methodPaiement;
+//        this.statut = statut;
+//        this.date = date;
+//        this.codePromo = codePromo;
+//        this.reduction = reduction;
+//        this.commande = commande;
+//        this.client = client;
+//        this.codePromoDetails = codePromoDetails;
+//    }
+
+
     public Paiement(Long id, Long commandeId, Long clientId, Double montant, String methodPaiement, String statut, LocalDate date, String codePromo, Double reduction, Commande commande, Client client, CodePromo codePromoDetails) {
         this.id = id;
         this.commandeId = commandeId;
@@ -44,7 +60,7 @@ public class Paiement {
         this.codePromoDetails = codePromoDetails;
     }
 
-    public Paiement(Object o, long l, long l1, double v, String payPal, String enAttente, LocalDate now, Object object, Object o1, Object object1) {
+    public Paiement() {
     }
 
     public Long getId() {

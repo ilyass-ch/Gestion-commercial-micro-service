@@ -1,7 +1,6 @@
 package net.chakir.paimentservice.sevice;
 
 import net.chakir.paimentservice.entities.Paiement;
-import net.chakir.paimentservice.entities.Remboursement;
 import net.chakir.paimentservice.enums.CodePromoStatut;
 import net.chakir.paimentservice.model.Client;
 import net.chakir.paimentservice.model.CodePromo;
@@ -20,34 +19,41 @@ public class PaiementService {
     private final ClientRestClient clientRestClient;
     private final CommandeRestclient commandeRestclient;
     private final CodePromoRestClient codePromoRestClient;
+    private final KafkaProducerService kafkaProducerService;  // Injection de KafkaProducerService
 
-    public PaiementService(PaiementRepository paiementRepository, ClientRestClient clientRestClient, CommandeRestclient commandeRestclient, CodePromoRestClient codePromoRestClient) {
+    public PaiementService(PaiementRepository paiementRepository, ClientRestClient clientRestClient, CommandeRestclient commandeRestclient, CodePromoRestClient codePromoRestClient, KafkaProducerService kafkaProducerService) {
         this.paiementRepository = paiementRepository;
         this.clientRestClient = clientRestClient;
         this.commandeRestclient = commandeRestclient;
         this.codePromoRestClient = codePromoRestClient;
+        this.kafkaProducerService = kafkaProducerService;  // Initialisation de KafkaProducerService
     }
 
     public Paiement createPaiement(Paiement paiement) {
         // Vérifier si un code promo est fourni
-        if (paiement.getCodePromo() != null && !paiement.getCodePromo().isEmpty()) {
-            try {
-                CodePromo codePromo = codePromoRestClient.getCodePromoById(Long.valueOf(paiement.getCodePromo()));
+//        if (paiement.getCodePromo() != null && !paiement.getCodePromo().isEmpty()) {
+//            try {
+//                CodePromo codePromo = codePromoRestClient.getCodePromoById(Long.valueOf(paiement.getCodePromo()));
+//
+//                if (codePromo != null && CodePromoStatut.ACTIF.equals(codePromo.getCodePromoStatut())) {
+//                    // Appliquer la réduction
+//                    double reduction = codePromo.getMontantReduction();
+//                    paiement.setReduction(reduction);
+//                    paiement.setMontant(paiement.getMontant() - reduction);
+//                } else {
+//                    throw new RuntimeException("Code promo invalide ou expiré.");
+//                }
+//            } catch (Exception e) {
+//                throw new RuntimeException("Erreur lors de la récupération du code promo : " + e.getMessage());
+//            }
+//        }
 
-                if (codePromo != null && CodePromoStatut.ACTIF.equals(codePromo.getCodePromoStatut())) {
-                    // Appliquer la réduction
-                    double reduction = codePromo.getMontantReduction();
-                    paiement.setReduction(reduction);
-                    paiement.setMontant(paiement.getMontant() - reduction);
-                } else {
-                    throw new RuntimeException("Code promo invalide ou expiré.");
-                }
-            } catch (Exception e) {
-                throw new RuntimeException("Erreur lors de la récupération du code promo : " + e.getMessage());
-            }
-        }
+        Paiement savedPaiement = paiementRepository.save(paiement);
 
-        return paiementRepository.save(paiement);
+        // Publier un événement de paiement après la création
+        kafkaProducerService.sendPaiementEvent(savedPaiement);  // Envoi de l'événement Kafka
+
+        return savedPaiement;
     }
 
     public boolean verifierCodePromo(String codePromo) {
@@ -67,7 +73,6 @@ public class PaiementService {
             throw new RuntimeException("Erreur lors de la vérification du code promo : " + e.getMessage());
         }
     }
-
 
     public Paiement getPaiement(Long id) {
         Paiement paiement = paiementRepository.findPaiementById(id);
@@ -108,12 +113,21 @@ public class PaiementService {
         paiement.setCommandeId(paiementDetails.getCommandeId());
         paiement.setMethodPaiement(paiementDetails.getMethodPaiement());
         paiement.setStatut(paiementDetails.getStatut());
-        return paiementRepository.save(paiement);
-    }
 
+        Paiement updatedPaiement = paiementRepository.save(paiement);
+
+        // Publier un événement de paiement après la mise à jour
+        kafkaProducerService.sendPaiementEvent(updatedPaiement);  // Envoi de l'événement Kafka
+
+        return updatedPaiement;
+    }
 
     public void deletePaiementById(Long id) {
+        Paiement paiement = paiementRepository.findById(id).orElseThrow(() -> new RuntimeException("Paiement not found"));
+
         paiementRepository.deleteById(id);
+
+        // Publier un événement de suppression de paiement
+        kafkaProducerService.sendPaiementEvent(paiement);  // Envoi de l'événement Kafka
     }
 }
-

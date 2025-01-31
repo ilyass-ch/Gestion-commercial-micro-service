@@ -23,7 +23,7 @@ public interface CodePromoRestClient {
             codePromo.setId(id);
             codePromo.setCode("");
             codePromo.setDescription("");
-            codePromo.setCodePromoStatut("NOT AVAILABLE");
+            codePromo.setCodePromoStatut(null);
             return codePromo;
     }
 }
