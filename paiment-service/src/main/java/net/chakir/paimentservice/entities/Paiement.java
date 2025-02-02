@@ -16,6 +16,7 @@ public class Paiement {
     private Long commandeId;
     private Long clientId;
     private Double montant;
+    private String clientEmail;
     private String methodPaiement;
     private String statut;
     private LocalDate date;
@@ -29,7 +30,7 @@ public class Paiement {
     @Transient
     private CodePromo codePromoDetails;
 
-//    public Paiement(Long id, Long commandeId, Long clientId, Double montant, String methodPaiement, String statut, LocalDate date, String codePromo, Double reduction, Commande commande, Client client, CodePromo codePromoDetails) {
+//    public Paiement(Long id, Long commandeId, Long clientId, Double montant,String clientEmail, String methodPaiement, String statut, LocalDate date, String codePromo, Double reduction, Commande commande, Client client, CodePromo codePromoDetails) {
 //        this.id = id;
 //        this.commandeId = commandeId;
 //        this.clientId = clientId;
@@ -45,11 +46,12 @@ public class Paiement {
 //    }
 
 
-    public Paiement(Long id, Long commandeId, Long clientId, Double montant, String methodPaiement, String statut, LocalDate date, String codePromo, Double reduction, Commande commande, Client client, CodePromo codePromoDetails) {
+    public Paiement(Long id, Long commandeId, Long clientId, Double montant,String clientEmail, String methodPaiement, String statut, LocalDate date, String codePromo, Double reduction, Commande commande, Client client, CodePromo codePromoDetails) {
         this.id = id;
         this.commandeId = commandeId;
         this.clientId = clientId;
         this.montant = montant;
+        this.clientEmail = clientEmail;
         this.methodPaiement = methodPaiement;
         this.statut = statut;
         this.date = date;
@@ -157,5 +159,13 @@ public class Paiement {
 
     public void setCodePromoDetails(CodePromo codePromoDetails) {
         this.codePromoDetails = codePromoDetails;
+    }
+
+    public String getClientEmail() {
+        return clientEmail;
+    }
+
+    public void setClientEmail(String clientEmail) {
+        this.clientEmail = clientEmail;
     }
 }

@@ -19,6 +19,6 @@ public class KafkaProducerService {
     // Publier un événement de paiement (après sérialisation en JSON)
     public void sendPaiementEvent(Paiement paiement) {
         String serializedPaiement = kafkaConfig.serializeObject(paiement); // Sérialisation de l'objet Paiement
-        kafkaTemplate.send("paiement-topic", serializedPaiement); // Envoi à Kafka
+        kafkaTemplate.send("payment-topic", serializedPaiement); // Envoi à Kafka
     }
 }
