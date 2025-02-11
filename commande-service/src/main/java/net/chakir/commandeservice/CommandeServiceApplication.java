@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDateTime;
 
+import static net.chakir.commandeservice.enums.StatutCommande.*;
+
 
 @SpringBootApplication
 @EnableFeignClients
@@ -23,9 +25,9 @@ public class CommandeServiceApplication {
     CommandLineRunner initDatabase(CommandeRepository commandeRepository) {
         return args -> {
             // Création de 3 commandes
-            Commande commande1 = new Commande(null, Long.valueOf(1), "EN_COURS", 150.75, LocalDateTime.now(), null);
-            Commande commande2 = new Commande(null, Long.valueOf(2), "LIVRÉE", 200.00, LocalDateTime.now().minusDays(1), null);
-            Commande commande3 = new Commande(null, Long.valueOf(3), "ANNULÉE", 50.00, LocalDateTime.now().minusDays(2), null);
+            Commande commande1 = new Commande(null, Long.valueOf(1), EN_ATTENTE_PAIEMENT, 150.75, LocalDateTime.now(), null);
+            Commande commande2 = new Commande(null, Long.valueOf(2), PAYE, 200.00, LocalDateTime.now().minusDays(1), null);
+            Commande commande3 = new Commande(null, Long.valueOf(3), EN_ATTENTE_PAIEMENT, 50.00, LocalDateTime.now().minusDays(2), null);
 
             // Sauvegarde des commandes dans la base de données
             commandeRepository.save(commande1);

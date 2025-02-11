@@ -2,12 +2,14 @@ package net.chakir.notifservice.entities;
 
 import net.chakir.notifservice.model.Client;
 import net.chakir.notifservice.model.CodePromoDetails;
+import net.chakir.notifservice.model.User;
 
 public class Notification {
     private Long id;
     private Long commandeId;
     private Long clientId;
     private String clientEmail;
+    private Long userId;
     private String type;  // Type de notification (ex: "Email", "SMS")
     private String contenu;
     private Double montant;
@@ -16,7 +18,9 @@ public class Notification {
     private String date;
     private String codePromo;
     private Double reduction;
+    private Long canalNotificationId;
 
+    private User user;
     private Client client;  // L'email du client est dans cet objet Client
     private CodePromoDetails codePromoDetails;
 
@@ -24,7 +28,7 @@ public class Notification {
     public Notification() {
     }
 
-    public Notification(Long id, Long commandeId, Long clientId,String clientEmail,String type, String contenu, Double montant, String methodPaiement, String statut, String date, String codePromo, Double reduction, Client client, CodePromoDetails codePromoDetails) {
+    public Notification(Long id, Long commandeId, Long clientId,String clientEmail,String type, String contenu, Double montant, String methodPaiement, String statut, String date, String codePromo, Double reduction,Long canalNotificationId ,User user, Client client, CodePromoDetails codePromoDetails) {
         this.id = id;
         this.commandeId = commandeId;
         this.clientId = clientId;
@@ -37,8 +41,38 @@ public class Notification {
         this.date = date;
         this.codePromo = codePromo;
         this.reduction = reduction;
+        this.canalNotificationId = canalNotificationId;
+        this.user = user;
         this.client = client;
         this.codePromoDetails = codePromoDetails;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setClientEmail(String clientEmail) {
+        this.clientEmail = clientEmail;
+    }
+
+    public Long getCanalNotificationId() {
+        return canalNotificationId;
+    }
+
+    public void setCanalNotificationId(Long canalNotificationId) {
+        this.canalNotificationId = canalNotificationId;
     }
 
     public String getType() {

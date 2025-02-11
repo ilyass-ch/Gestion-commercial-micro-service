@@ -1,6 +1,7 @@
 package net.chakir.commandeservice.entities;
 
 import jakarta.persistence.*;
+import net.chakir.commandeservice.enums.StatutCommande;
 import net.chakir.commandeservice.model.Client;
 
 
@@ -13,7 +14,7 @@ public class Commande {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
         private Long clientId;
-        private String statut;
+        private StatutCommande statut;
         private double montantTotal;
         private LocalDateTime dateCreation;
         @Transient
@@ -21,7 +22,7 @@ public class Commande {
 
     public Commande() {}
 
-    public Commande(Long id, Long clientId, String statut, double montantTotal, LocalDateTime dateCreation, Client client) {
+    public Commande(Long id, Long clientId, StatutCommande statut, double montantTotal, LocalDateTime dateCreation, Client client) {
         this.id = id;
         this.clientId = clientId;
         this.statut = statut;
@@ -46,11 +47,11 @@ public class Commande {
         this.clientId = clientId;
     }
 
-    public String getStatut() {
+    public StatutCommande getStatut() {
         return statut;
     }
 
-    public void setStatut(String statut) {
+    public void setStatut(StatutCommande statut) {
         this.statut = statut;
     }
 

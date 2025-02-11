@@ -5,7 +5,7 @@ public class CanalNotification {
     private String nom;           // Nom du canal (par exemple, Email, SMS, Push)
     private String description;   // Description du canal
 
-    // Constructeurs, getters et setters
+
 
     public CanalNotification() {
     }

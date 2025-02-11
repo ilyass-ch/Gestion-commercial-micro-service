@@ -2,6 +2,7 @@ package net.chakir.notifservice.sevice;
 
 import jakarta.mail.internet.MimeMessage;
 import net.chakir.notifservice.entities.Notification;
+import net.chakir.notifservice.repo.NotificationRepository;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -14,15 +15,22 @@ public class NotificationService {
 
     private final JavaMailSender mailSender;  // Pour l'envoi d'email
     private final KafkaTemplate<String, Notification> kafkaTemplate;  // Pour l'envoi via Kafka
+    private final NotificationRepository notificationRepository;
 
     @Autowired
-    public NotificationService(KafkaTemplate<String, Notification> kafkaTemplate, JavaMailSender mailSender) {
+    public NotificationService(KafkaTemplate<String, Notification> kafkaTemplate, JavaMailSender mailSender, NotificationRepository notificationRepository) {
         this.kafkaTemplate = kafkaTemplate;
         this.mailSender = mailSender;
+        this.notificationRepository = notificationRepository;
     }
 
     // Méthode principale pour envoyer une notification
     public void sendNotification(Notification notification) {
+        // Enregistrer la notification dans la base de données
+        notificationRepository.save(notification);
+        System.out.println("Notification sent");
+        System.out.println("Notification enregistrée dans la base de données.");
+
         if ("Email".equals(notification.getType())) {
             sendEmail(notification);  // Envoi de l'email
         } else if ("SMS".equals(notification.getType())) {
