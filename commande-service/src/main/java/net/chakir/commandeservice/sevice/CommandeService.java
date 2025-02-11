@@ -15,10 +15,12 @@ import java.util.Optional;
 public class CommandeService {
     private final ClientRestClient clientRestClient;
     private final CommandeRepository commandeRepository;
+    private final KafkaProducerService kafkaProducerService;
 
-    public CommandeService(CommandeRepository commandeRepository, ClientRestClient clientRestClient) {
+    public CommandeService(CommandeRepository commandeRepository, ClientRestClient clientRestClient, KafkaProducerService kafkaProducerService) {
         this.commandeRepository = commandeRepository;
         this.clientRestClient = clientRestClient;
+        this.kafkaProducerService = kafkaProducerService;
     }
 
     public List<Commande> getCommandes() {
@@ -44,6 +46,8 @@ public class CommandeService {
 
     public Commande createCommande(Commande commande) {
         commande.setDateCreation(LocalDateTime.now());
+
+        kafkaProducerService.sendCommandeEvent(commande);
         return commandeRepository.save(commande);
     }
 

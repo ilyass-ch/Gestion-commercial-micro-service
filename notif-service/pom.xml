@@ -65,6 +65,14 @@
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
 
+
+        <dependency>
+            <groupId>com.twilio.sdk</groupId>
+            <artifactId>twilio</artifactId>
+            <version>8.28.0</version> <!-- Choisir la version appropriée -->
+        </dependency>
+
+
         <!-- Dépendance pour Kafka -->
         <dependency>
             <groupId>org.springframework.kafka</groupId>

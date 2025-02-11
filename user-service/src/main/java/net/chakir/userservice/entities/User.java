@@ -15,6 +15,7 @@ public class User {
     private String userName; // Nom d'utilisateur
     private String email; // Email de l'utilisateur
     private String password; // Mot de passe de l'utilisateur
+    private String telephone;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles; // Liste des rôles associés
@@ -26,14 +27,16 @@ public class User {
     }
 
     // Constructeur avec tous les paramètres
-    public User(Long id, String userName, String email, String password, List<Role> roles, LocalDateTime dateCreation) {
+    public User(Long id, String userName, String email, String password,String telephone, List<Role> roles, LocalDateTime dateCreation) {
         this.id = id;
         this.userName = userName;
         this.email = email;
         this.password = password;
+        this.telephone = telephone;
         this.roles = roles;
         this.dateCreation = dateCreation;
     }
+
 
     // Getters et setters
     public Long getId() {
@@ -67,6 +70,12 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getTelephone() {
+        return telephone;}
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;}
 
     public List<Role> getRoles() {
         return roles;

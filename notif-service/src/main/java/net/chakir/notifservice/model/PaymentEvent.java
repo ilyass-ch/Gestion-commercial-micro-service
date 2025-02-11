@@ -2,6 +2,8 @@ package net.chakir.notifservice.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.time.LocalDateTime;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PaymentEvent {
     private Long id;  // Ajoutez le champ id ici
@@ -12,7 +14,7 @@ public class PaymentEvent {
     private String methodPaiement;
     private String statut;
     private Double montant;
-    private String date;
+    private LocalDateTime date;
     private String codePromo;
     private Double reduction;
     private Client client;  // Le client est un objet dans cet événement
@@ -74,11 +76,11 @@ public class PaymentEvent {
         this.statut = statut;
     }
 
-    public String getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
@@ -122,7 +124,7 @@ public class PaymentEvent {
         this.clientName = clientName;
     }
 
-    public PaymentEvent(Long id, Long commandeId, Long clientId, String clientEmail, String clientName, String methodPaiement, String statut, Double montant, String date, String codePromo, Double reduction, Client client, CodePromoDetails codePromoDetails) {
+    public PaymentEvent(Long id, Long commandeId, Long clientId, String clientEmail, String clientName, String methodPaiement, String statut, Double montant, LocalDateTime date, String codePromo, Double reduction, Client client, CodePromoDetails codePromoDetails) {
         this.id = id;
         this.commandeId = commandeId;
         this.clientId = clientId;

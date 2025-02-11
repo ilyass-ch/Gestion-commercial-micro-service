@@ -4,6 +4,15 @@ public class User {
     private Long id;
     private String userName;
     private String email;
+    private String telephone;
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
 
     public Long getId() {
         return id;

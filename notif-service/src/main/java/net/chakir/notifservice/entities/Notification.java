@@ -4,6 +4,8 @@ import net.chakir.notifservice.model.Client;
 import net.chakir.notifservice.model.CodePromoDetails;
 import net.chakir.notifservice.model.User;
 
+import java.time.LocalDateTime;
+
 public class Notification {
     private Long id;
     private Long commandeId;
@@ -15,7 +17,7 @@ public class Notification {
     private Double montant;
     private String methodPaiement;
     private String statut;
-    private String date;
+    private LocalDateTime date;
     private String codePromo;
     private Double reduction;
     private Long canalNotificationId;
@@ -28,7 +30,7 @@ public class Notification {
     public Notification() {
     }
 
-    public Notification(Long id, Long commandeId, Long clientId,String clientEmail,String type, String contenu, Double montant, String methodPaiement, String statut, String date, String codePromo, Double reduction,Long canalNotificationId ,User user, Client client, CodePromoDetails codePromoDetails) {
+    public Notification(Long id, Long commandeId, Long clientId,String clientEmail,String type, String contenu, Double montant, String methodPaiement, String statut, LocalDateTime date, String codePromo, Double reduction,Long canalNotificationId ,User user, Client client, CodePromoDetails codePromoDetails) {
         this.id = id;
         this.commandeId = commandeId;
         this.clientId = clientId;
@@ -139,11 +141,11 @@ public class Notification {
         this.statut = statut;
     }
 
-    public String getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
