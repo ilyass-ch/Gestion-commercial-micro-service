@@ -3,6 +3,7 @@ package net.chakir.userservice.entities;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "users") // Renomme la table pour éviter le mot réservé "user"
@@ -16,6 +17,8 @@ public class User {
     private String email; // Email de l'utilisateur
     private String password; // Mot de passe de l'utilisateur
     private String telephone;
+    private boolean enabled;
+    private String verificationCode;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles; // Liste des rôles associés
@@ -27,18 +30,38 @@ public class User {
     }
 
     // Constructeur avec tous les paramètres
-    public User(Long id, String userName, String email, String password,String telephone, List<Role> roles, LocalDateTime dateCreation) {
+    public User(Long id, String userName, String email, String password,String telephone, List<Role> roles, LocalDateTime dateCreation, boolean enabled, String verificationCode) {
         this.id = id;
         this.userName = userName;
         this.email = email;
         this.password = password;
         this.telephone = telephone;
+        this.enabled = enabled;
+        this.verificationCode = verificationCode;
         this.roles = roles;
         this.dateCreation = dateCreation;
     }
 
 
     // Getters et setters
+
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
+    }
+
     public Long getId() {
         return id;
     }
@@ -91,5 +114,9 @@ public class User {
 
     public void setDateCreation(LocalDateTime dateCreation) {
         this.dateCreation = dateCreation;
+    }
+
+    public void generateVerificationCode() {
+        this.verificationCode = UUID.randomUUID().toString().substring(0, 6);
     }
 }
